@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <style>
+      body{
+        font-family: 'Courier New', Courier, monospace;
+      }
+      ul{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      li{
+        list-style: none;
+        background-color: lightblue;
+        height: 80px;
+        width: calc(100%/3 - 3rem);
+        margin: 1rem;
+        border: 1px solid darkblue;
+        text-align: center;
+        align-items: center;
+      }
+      .favorite{
+        background-color: bisque;
+      }
+      .legend{
+        background-color: bisque;
+        height: 10px;
+        width: 10px;
+        border: 1px solid black;
+      }
+      #legend{
+        display: flex;
+        padding: 3px;
+      }
+      #legend > div{
+        margin: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Acme Employees DOM</h1>
+    <h3>Change your three favourites Employees</h3>
+    <div>
+      <ul id="employeesList"></ul>
+      <div id='legend'>
+        <div>Favorite</div> <div class="legend"></div>
+      </div>
+
+    </div>
+    <script>
+        const employees = [
+    { id: 1, name: 'moe'},
+    { id: 2, name: 'larry'},
+    { id: 4, name: 'shep'},
+    { id: 3, name: 'curly'},
+    { id: 5, name: 'groucho'},
+    { id: 6, name: 'harpo'},
+    { id: 8, name: 'shep Jr.'},
+    { id: 99, name: 'lucy'}
+  ];
+      const EmployeesList = document.querySelector('#employeesList');
+      const render = (data, container) => {
+       const html = data.map((item, idx) => `<li data-idx=${idx} class='${item.favorite?"favorite":""}'>${item.name}</li>`).join('');
+       container.innerHTML = html;
+      };
+      EmployeesList.addEventListener('click', ev => {
+        const li = document.querySelector('li')
+        const idx = ev.target.getAttribute('data-idx')
+        employees[idx].favorite = !employees[idx].favorite;
+        const arr = employees.filter(employee => employee.favorite)
+        if(arr.length <= 3){
+          render(employees, EmployeesList);
+        } else {
+          alert('the total favorite must 3 or less')
+          employees[idx].favorite = false
+        }
+      })
+      render(employees, EmployeesList);
+    </script>
+  </body>
+</html>
